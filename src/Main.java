@@ -34,7 +34,7 @@ public class Main {
     }
 
     public static ArrayList<Integer> radixSort(ArrayList<Integer> numberArray, ArrayList<Integer> sortedNumberArray) {
-        int[] digitArray = new int[10];
+        int[] digitArray = new int[9];
         // Radix sort implementation
         for (int i = 0; i <= 3; i++) {
             for (int number : numberArray) {
@@ -47,7 +47,12 @@ public class Main {
                     // e.getStackTrace();
                 }
             }
-            sortedNumberArray.add(1);
+            for (int j = 0; j <= 9; j++) {
+                for (int k = 1; k <= digitArray[j]; k++) {
+                    sortedNumberArray.add();
+                }
+            }
+
         }
         return sortedNumberArray;
     }
