@@ -1,7 +1,11 @@
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 public class Main {
 
@@ -11,7 +15,7 @@ public class Main {
         File numbersFile = new File(numbersPath);
         // Take numbers to an ArrayList
         ArrayList<Integer> numbersList = numberFileReader(numbersFile);
-        ArrayList<Integer> sortedNumberArray = new ArrayList<Integer>();
+        ArrayList<String> sortedNumberArray = new ArrayList<String>();
         sortedNumberArray = radixSort(numbersList, sortedNumberArray);
 
     }
@@ -33,26 +37,43 @@ public class Main {
         return numbersList;
     }
 
-    public static ArrayList<Integer> radixSort(ArrayList<Integer> numberArray, ArrayList<Integer> sortedNumberArray) {
-        int[] digitArray = new int[9];
+    public static ArrayList<String> radixSort(ArrayList<Integer> numberArray, ArrayList<String> sortedNumberArray) {
+        // Special array that index is digit and value is the count of that digit.
+        int[] digitArray = new int[10];
         // Radix sort implementation
+        // Sort for every digit.
         for (int i = 0; i <= 3; i++) {
+            Arrays.fill(digitArray, 0);
             for (int number : numberArray) {
+                // get the (length - i). digit of the number.
+                // count the occurence of this digit and write to digitArray.
                 try {
+                    // Construct digitArray
                     digitArray[Integer.parseInt(String.valueOf(number).substring(
                             String.valueOf(number).length() - i - 1, String.valueOf(number).length() - i))]++;
                 } catch (StringIndexOutOfBoundsException e) {
-                    // e.getStackTrace();
+                    // ;
                 } catch (Exception e) {
                     // e.getStackTrace();
                 }
             }
-            for (int j = 0; j <= 9; j++) {
-                for (int k = 1; k <= digitArray[j]; k++) {
-                    sortedNumberArray.add();
+            // Sort digitArray
+            if (i == 0) {
+                for (int j = 0; j <= 9; j++) {
+                    for (int k = 1; k <= digitArray[j]; k++) {
+                        sortedNumberArray.add(String.valueOf(j));
+                    }
+                }
+            } else {
+                int index = 0;
+                for (int j = 0; j <= 9; j++) {
+                    for (int k = 1; k <= digitArray[j]; k++) {
+                        sortedNumberArray.set(index, j + sortedNumberArray.get(index));
+                        index++;
+                    }
                 }
             }
-
+            System.out.println("bla");
         }
         return sortedNumberArray;
     }
