@@ -1,10 +1,13 @@
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
+public class Main_Old {
 
     public static void main(String[] args) {
         // Numbers file path
@@ -12,16 +15,9 @@ public class Main {
         File numbersFile = new File(numbersPath);
         // Take numbers to an ArrayList
         ArrayList<Integer> numbersList = numberFileReader(numbersFile);
-        ArrayList<Integer> sortedNumberArray = radixSort(numbersList);
+        ArrayList<String> sortedNumberArray = new ArrayList<String>();
+        sortedNumberArray = radixSort(numbersList, sortedNumberArray);
 
-    }
-
-    public static ArrayList<ArrayList> radixBucketsCreator() {
-        ArrayList<ArrayList> radixBuckets = new ArrayList<ArrayList>();
-        for (int i = 0; i <= 9; i++) {
-            radixBuckets.add(new ArrayList<Integer>());
-        }
-        return radixBuckets;
     }
 
     public static ArrayList<Integer> numberFileReader(File numbersFile) {
@@ -41,8 +37,7 @@ public class Main {
         return numbersList;
     }
 
-    public static ArrayList<Integer> radixSort(ArrayList<Integer> numberArray) {
-
+    public static ArrayList<String> radixSort(ArrayList<Integer> numberArray, ArrayList<String> sortedNumberArray) {
         // Special array that index is digit and value is the count of that digit.
         int[] digitArray = new int[10];
         // Radix sort implementation
