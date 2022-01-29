@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -13,11 +12,12 @@ public class Main {
         // Take numbers to an ArrayList
         ArrayList<Integer> numbersList = numberFileReader(numbersFile);
         ArrayList<Integer> sortedNumberArray = radixSort(numbersList);
-
+        System.out.println("Radix Sıralama Tamamlandı.");
     }
 
-    public static ArrayList<ArrayList> radixBucketsCreator() {
-        ArrayList<ArrayList> radixBuckets = new ArrayList<ArrayList>();
+    public static ArrayList<ArrayList<Integer>> radixBucketsCreator() {
+        // 10 arraylist for 10 digits inside an array list.
+        ArrayList<ArrayList<Integer>> radixBuckets = new ArrayList<ArrayList<Integer>>();
         for (int i = 0; i <= 9; i++) {
             radixBuckets.add(new ArrayList<Integer>());
         }
@@ -42,45 +42,48 @@ public class Main {
     }
 
     public static ArrayList<Integer> radixSort(ArrayList<Integer> numberArray) {
-
-        // Special array that index is digit and value is the count of that digit.
-        int[] digitArray = new int[10];
-        // Radix sort implementation
-        // Sort for every digit.
+        // get radix buckets.
+        ArrayList<ArrayList<Integer>> radixBuckets = radixBucketsCreator();
+        // for every digit.
         for (int i = 0; i <= 3; i++) {
-            Arrays.fill(digitArray, 0);
             for (int number : numberArray) {
-                // get the (length - i). digit of the number.
-                // count the occurence of this digit and write to digitArray.
+                // find i'nth digit
+                int digit;
                 try {
-                    // Construct digitArray
-                    digitArray[Integer.parseInt(String.valueOf(number).substring(
-                            String.valueOf(number).length() - i - 1, String.valueOf(number).length() - i))]++;
-                } catch (StringIndexOutOfBoundsException e) {
-                    // ;
+                    digit = findNthDigit(number, i);
+                    radixBuckets.get(digit).add(number);
                 } catch (Exception e) {
-                    // e.getStackTrace();
+                    // TODO Auto-generated catch block
+                    // e.printStackTrace();
                 }
             }
-            // Sort digitArray
-            if (i == 0) {
-                for (int j = 0; j <= 9; j++) {
-                    for (int k = 1; k <= digitArray[j]; k++) {
-                        sortedNumberArray.add(String.valueOf(j));
+            // From buckets to numberArray
+            numberArray.clear();
+            for (ArrayList<Integer> bucket : radixBuckets) {
+                if (bucket.size() != 0) {
+                    for (int num : bucket) {
+                        numberArray.add(num);
                     }
                 }
-            } else {
-                int index = 0;
-                for (int j = 0; j <= 9; j++) {
-                    for (int k = 1; k <= digitArray[j]; k++) {
-                        sortedNumberArray.set(index, j + sortedNumberArray.get(index));
-                        index++;
-                    }
-                }
+                bucket.clear();
             }
-            System.out.println("bla");
+            System.out.println("Soldan " + i + ". basamak bitti.");
         }
-        return sortedNumberArray;
+        return numberArray;
+    }
+
+    public static Integer findNthDigit(Integer number, Integer n) throws Exception {
+        // n is from last digit. Starts with 0.
+        int digit;
+        // now it starts with 1. Sorry.
+        n = n + 1;
+        if (n > number.toString().length()) {
+            digit = 0;
+            // throw new Exception("OutOfIntegerDigitsError");
+        }
+        digit = (number % (int) Math.pow(10, n)) - (number % (int) Math.pow(10, (n - 1)));
+        digit = digit / (int) Math.pow(10, (n - 1));
+        return digit;
     }
 
 }
