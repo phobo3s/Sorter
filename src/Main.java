@@ -11,8 +11,16 @@ public class Main {
         File numbersFile = new File(numbersPath);
         // Take numbers to an ArrayList
         ArrayList<Integer> numbersList = numberFileReader(numbersFile);
-        ArrayList<Integer> sortedNumberArray = radixSort(numbersList);
+        ArrayList<Integer> sortedNumberArray = radixSort(numbersList, 3);
+        sortedNumbersToTerminal(sortedNumberArray);
+    }
+
+    public static void sortedNumbersToTerminal(ArrayList<Integer> sortedNumberArray) {
         System.out.println("Radix Sıralama Tamamlandı.");
+        System.out.println("Sonuçlar :");
+        for (int number : sortedNumberArray) {
+            System.out.println(number);
+        }
     }
 
     public static ArrayList<ArrayList<Integer>> radixBucketsCreator() {
@@ -41,11 +49,13 @@ public class Main {
         return numbersList;
     }
 
-    public static ArrayList<Integer> radixSort(ArrayList<Integer> numberArray) {
+    public static ArrayList<Integer> radixSort(ArrayList<Integer> numberArray, int highestDigitCount) {
+        // Digit counts start from 0 so minus 1.
+        highestDigitCount = highestDigitCount - 1;
         // get radix buckets.
         ArrayList<ArrayList<Integer>> radixBuckets = radixBucketsCreator();
         // for every digit.
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= highestDigitCount; i++) {
             for (int number : numberArray) {
                 // find i'nth digit
                 int digit;
