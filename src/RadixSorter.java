@@ -1,21 +1,15 @@
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class RadixSorter {
 
-    private File numbersFile;
     private ArrayList<Integer> resultArray;
 
-    public RadixSorter(String numbersPath, int maxDigitCount) {
-        numbersFile = new File(numbersPath);
-        resultArray = new ArrayList<Integer>();
-        this.resultArray = radixSort(numberFileReader(numbersFile), maxDigitCount);
-    }
-
-    public void main() {
-
+    public RadixSorter(String numbersPath) {
+        File numbersFile = new File(numbersPath);
+        ArrayList<Integer> numberArrayList = new ArrayList<Integer>(
+                HelperFunctions.NumberFileToListReader(numbersFile));
+        this.resultArray = radixSort(numberArrayList, findMaxDigitCount(numberArrayList));
     }
 
     public ArrayList<Integer> getResult() {
@@ -29,23 +23,6 @@ public class RadixSorter {
             radixBuckets.add(new ArrayList<Integer>());
         }
         return radixBuckets;
-    }
-
-    public ArrayList<Integer> numberFileReader(File numbersFile) {
-        ArrayList<Integer> numbersList = new ArrayList<Integer>();
-        try {
-            Scanner reader = new Scanner(numbersFile);
-            while (reader.hasNextLine()) {
-                numbersList.add(Integer.parseInt(reader.nextLine()));
-            }
-            reader.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-
-        }
-        return numbersList;
     }
 
     public ArrayList<Integer> radixSort(ArrayList<Integer> numberArray, int highestDigitCount) {
@@ -89,6 +66,21 @@ public class RadixSorter {
         digit = (number % (int) Math.pow(10, n)) - (number % (int) Math.pow(10, (n - 1)));
         digit = digit / (int) Math.pow(10, (n - 1));
         return digit;
+    }
+
+    public Integer findMaxDigitCount(ArrayList<Integer> numberArray) {
+        int maxDigitCount = 0;
+        for (int num : numberArray) {
+            for (int i = 1; i <= 100; i++) {
+                if (num < Math.pow(10, i) && i > maxDigitCount) {
+                    maxDigitCount = i;
+                }
+            }
+            if (maxDigitCount == 0) {
+                maxDigitCount = String.valueOf(num).length();
+            }
+        }
+        return maxDigitCount;
     }
 
 }

@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         // Numbers file path
         String numbersPath = "C:\\Java_Code\\Sorter\\src\\NumbersFolder\\NumbersFile.txt";
-        arrayToTerminal(new RadixSorter(numbersPath, 4).getResult());
+        arrayToTerminal(new RadixSorter(numbersPath).getResult());
 
     }
 
