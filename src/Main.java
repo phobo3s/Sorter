@@ -11,10 +11,7 @@ public class Main {
 
     public static void arrayToTerminal(ArrayList<Integer> sortedNumberArray) {
         System.out.println("Radix Sıralama Tamamlandı.");
-        System.out.print("Sonuçlar : {");
-        for (int number : sortedNumberArray) {
-            System.out.print(number + ",");
-        }
-        System.out.println("}");
+        System.out.print("Sonuçlar : ");
+        System.out.println(sortedNumberArray);
     }
 }

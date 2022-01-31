@@ -72,7 +72,7 @@ public class RadixSorter {
                 }
                 bucket.clear();
             }
-            System.out.println("Soldan " + i + ". basamak bitti.");
+            // System.out.println("Soldan " + i + ". basamak bitti.");
         }
         return numberArray;
     }
